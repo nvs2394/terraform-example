@@ -1,3 +1,9 @@
+orbs:
+  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
+  # Orbs reduce the amount of configuration required for common tasks. 
+  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
+  node: circleci/node@4.1
+
 version: 2
 
 jobs:
@@ -49,10 +55,19 @@ jobs:
           root: .
           paths:
             - .
+  
+  test:
+    docker:
+      - image: cimg/node:15.1
+    steps:
+      - checkout
+      - run:
+          name: Unit test
+          command: cd app && npm i && npm test
 
 workflows:
   version: 2
-  plan_approve_apply:
+  deploy_infra:
     jobs:
       - validate
       - plan-apply:
@@ -65,3 +80,7 @@ workflows:
       - apply:
           requires:
             - hold-apply
+
+  deploy_service:
+    jobs:
+      - test
