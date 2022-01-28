@@ -50,6 +50,7 @@ jobs:
       - run:
           name: terraform
           command: |
+            cd infra
             terraform apply -auto-approve "tfapply"
       - persist_to_workspace:
           root: .
