@@ -40,7 +40,7 @@ workflows:
   plan_approve_apply:
     jobs:
       - validate
-      - plan-apply
+      - plan-apply:
           requires:
             - validate
       - hold-apply:
