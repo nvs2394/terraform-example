@@ -2,15 +2,23 @@ variable "AWS_REGION" {
   default = "eu-west-1"
 }
 
+variable "SERVICE_NAME" {
+  description = "Name to use for resources"
+  default = "ms-example"
+}
+
 variable "PATH_TO_PRIVATE_KEY" {
+  desdescription = "Private key name use for ssh"
   default = "mykey"
 }
 
 variable "PATH_TO_PUBLIC_KEY" {
+  desdescription = "Public key name use for ssh"
   default = "mykey.pub"
 }
 
 variable "ECS_INSTANCE_TYPE" {
+  desdescription = "EC2 instance type use for deploy service"
   default = "t2.micro"
 }
 
@@ -34,11 +42,12 @@ variable "AMIS" {
   }
 }
 
-variable "INSTANCE_DEVICE_NAME" {
-  default = "/dev/xvdh"
-}
 
-variable "JENKINS_VERSION" {
-  default = "2.303.1"
-}
+variable "TAGS" {
+  description = "tags"
+  type=map(string)
 
+  default = {
+    "managed_by"="terraform"
+  }
+}
