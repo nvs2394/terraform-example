@@ -73,23 +73,6 @@ jobs:
           name: Unit test
           command: cd app && npm i && npm test
 
-  aws-ecr/build-and-push-image:
-    <<: *filters
-    name: Build and Push Docker Image
-    account-url: AWS_ECR_ACCOUNT_URL
-    aws-access-key-id: AWS_ACCESS_KEY_ID
-    aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-    region: AWS_DEFAULT_REGION
-    context: ms-example
-    create-repo: false
-    dockerfile: Dockerfile
-    no-output-timeout: 20m
-    path: ./app
-    profile-name: default
-    repo: ms-example
-    skip-when-tags-exist: false
-    tag: 'latest,$CIRCLE_SHA1'
-
 workflows:
   version: 2
   deploy_infra:
@@ -109,4 +92,19 @@ workflows:
   deploy_service:
     jobs:
       - test
-      - aws-ecr/build-and-push-image
+      - aws-ecr/build-and-push-image:
+        <<: *filters
+        name: Build and Push Docker Image
+        account-url: AWS_ECR_ACCOUNT_URL
+        aws-access-key-id: AWS_ACCESS_KEY_ID
+        aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+        region: AWS_DEFAULT_REGION
+        context: ms-example
+        create-repo: false
+        dockerfile: Dockerfile
+        no-output-timeout: 20m
+        path: ./app
+        profile-name: default
+        repo: ms-example
+        skip-when-tags-exist: false
+        tag: 'latest,$CIRCLE_SHA1'
