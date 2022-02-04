@@ -7,10 +7,8 @@ anchors:
         only: main
 
 orbs:
-  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
-  # Orbs reduce the amount of configuration required for common tasks. 
-  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.1
+  aws-ecr: circleci/aws-ecr@6.15.2
 
 
 jobs:
