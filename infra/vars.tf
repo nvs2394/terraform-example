@@ -8,17 +8,17 @@ variable "SERVICE_NAME" {
 }
 
 variable "PATH_TO_PRIVATE_KEY" {
-  desdescription = "Private key name use for ssh"
+  description = "Private key name use for ssh"
   default = "mykey"
 }
 
 variable "PATH_TO_PUBLIC_KEY" {
-  desdescription = "Public key name use for ssh"
+  description = "Public key name use for ssh"
   default = "mykey.pub"
 }
 
 variable "ECS_INSTANCE_TYPE" {
-  desdescription = "EC2 instance type use for deploy service"
+  description = "EC2 instance type use for deploy service"
   default = "t2.micro"
 }
 
