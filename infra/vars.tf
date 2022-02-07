@@ -1,53 +1,27 @@
-variable "AWS_REGION" {
-  default = "eu-west-1"
+# variables.tf | Auth and Application variables
+variable "aws_region" {
+  type        = string
+  description = "AWS Region"
 }
 
-variable "SERVICE_NAME" {
-  description = "Name to use for resources"
-  default = "ms-example"
+variable "app_environment" {
+  type    = string
+  default = "Application Environment"
 }
 
-variable "PATH_TO_PRIVATE_KEY" {
-  description = "Private key name use for ssh"
-  default = "mykey"
+variable "app_name" {
+  type    = string
+  default = "Application Name"
 }
 
-variable "PATH_TO_PUBLIC_KEY" {
-  description = "Public key name use for ssh"
-  default = "mykey.pub"
+variable "private_subnets" {
+  description = "List of private subnets"
 }
 
-variable "ECS_INSTANCE_TYPE" {
-  description = "EC2 instance type use for deploy service"
-  default = "t2.micro"
+variable "availability_zones" {
+  description = "List of availability zones"
 }
 
-variable "ECS_AMIS" {
-  type = map(string)
-  default = {
-    us-east-1 = "ami-1924770e"
-    us-west-2 = "ami-56ed4936"
-    eu-west-1 = "ami-c8337dbb"
-  }
-}
-
-# Full List: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
-
-variable "AMIS" {
-  type = map(string)
-  default = {
-    us-east-1 = "ami-13be557e"
-    us-west-2 = "ami-06b94666"
-    eu-west-1 = "ami-844e0bf7"
-  }
-}
-
-
-variable "TAGS" {
-  description = "tags"
-  type=map(string)
-
-  default = {
-    "managed_by"="terraform"
-  }
+variable "public_subnets" {
+  description = "List of public subnets"
 }
