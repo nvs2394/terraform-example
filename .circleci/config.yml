@@ -112,7 +112,7 @@ workflows:
           no-output-timeout: 20m
           path: ./app
           profile-name: default
-          repo: ""
+          repo: "node-js-app-production-ecr"
           skip-when-tags-exist: false
           tag: 'latest,$CIRCLE_SHA1'
           requires:
