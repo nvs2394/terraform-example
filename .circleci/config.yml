@@ -72,7 +72,7 @@ jobs:
           name: Unit test
           command: cd app && npm i && npm test
 
-  ecs/run-task:
+  ecs-run-task:
     docker:
       - image: 'cimg/node:15.1'
     steps:
@@ -117,6 +117,6 @@ workflows:
           tag: 'latest,$CIRCLE_SHA1'
           requires:
             - test
-      - ecs/run-task:
+      - ecs-run-task:
           requires:
               - aws-ecr/build-and-push-image
