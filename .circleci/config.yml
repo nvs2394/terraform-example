@@ -9,6 +9,7 @@ anchors:
 orbs:
   node: circleci/node@4.1
   aws-ecr: circleci/aws-ecr@6.15.2
+  aws-ecs: circleci/aws-ecs@2.0
 
 
 jobs:
@@ -71,6 +72,15 @@ jobs:
           name: Unit test
           command: cd app && npm i && npm test
 
+  ecs/run-task:
+    docker:
+      - image: 'cimg/node:15.1'
+    steps:
+      - aws-ecs/run-task:
+          cluster: cluster1
+          security-group-ids: $SECURITY_GROUP_IDS
+          subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
+          task-definition: node-js-app-task
 workflows:
   version: 2
   deploy_infra:
@@ -107,3 +117,6 @@ workflows:
           tag: 'latest,$CIRCLE_SHA1'
           requires:
             - test
+      - ecs/run-task:
+          requires:
+              - aws-ecr/build-and-push-image
