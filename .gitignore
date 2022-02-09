@@ -1,3 +1,10 @@
 /app/node_modules/
-/infa/.terraform/
+/infa/.terraform/*
+**/.terraform.lock.hcl
 .DS_Store
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+**/*.tfstate
+**/*.tfstate.*
