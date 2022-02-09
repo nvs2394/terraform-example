@@ -72,15 +72,6 @@ jobs:
           name: Unit test
           command: cd app && npm i && npm test
 
-  ecs-run-task:
-    docker:
-      - image: 'cimg/node:15.1'
-    steps:
-      - aws-ecs/run-task:
-          cluster: cluster1
-          security-group-ids: $SECURITY_GROUP_IDS
-          subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-          task-definition: node-js-app-task
 workflows:
   version: 2
   deploy_infra:
@@ -102,7 +93,6 @@ workflows:
       - test
       - aws-ecr/build-and-push-image:
           <<: *filters
-          name: Build and Push Docker Image
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
@@ -117,6 +107,9 @@ workflows:
           tag: 'latest,$CIRCLE_SHA1'
           requires:
             - test
-      - ecs-run-task:
+      - aws-ecs/deploy-service-update:
           requires:
-              - Build and Push Docker Image
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "node-js-app-production-ecs-service"
+          cluster-name: "node-js-app-production-cluster"
+          container-image-name-updates: "container=node-js-app-production-container,tag=${CIRCLE_SHA1}"
