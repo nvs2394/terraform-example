@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       "name": "${var.app_name}-${var.app_environment}-container",
       "image": "${aws_ecr_repository.aws-ecr.repository_url}:latest",
       "entryPoint": [],
-      "environment": "${data.template_file.env_vars.rendered}",
+      "environment": [${data.template_file.env_vars.rendered}],
       "essential": true,
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -46,8 +46,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       },
       "portMappings": [
         {
-          "containerPort": 3000,
-          "hostPort": 80
+          "containerPort": 8080,
+          "hostPort": 8080
         }
       ],
       "cpu": 256,
@@ -59,7 +59,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
 
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  memory                   = "256"
+  memory                   = "512"
   cpu                      = "256"
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
   task_role_arn            = aws_iam_role.ecsTaskExecutionRole.arn

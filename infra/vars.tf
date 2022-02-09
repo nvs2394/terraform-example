@@ -9,6 +9,11 @@ variable "app_environment" {
   default = "Application Environment"
 }
 
+variable "aws_key_pair_name" {
+  type    = string
+  default = "AWS Key Pair Name"
+}
+
 variable "app_name" {
   type    = string
   default = "Application Name"
