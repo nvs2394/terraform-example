@@ -119,4 +119,4 @@ workflows:
             - test
       - ecs-run-task:
           requires:
-              - aws-ecr/build-and-push-image
+              - Build and Push Docker Image
