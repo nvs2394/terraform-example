@@ -48,8 +48,8 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
       },
       "portMappings": [
         {
-          "containerPort": 80,
-          "hostPort": 80
+          "containerPort": 8080,
+          "hostPort": 8080
         }
       ],
       "cpu": 256,
@@ -99,7 +99,7 @@ resource "aws_ecs_service" "aws-ecs-service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
     container_name   = "${var.app_name}-${var.app_environment}-container"
-    container_port   = 80
+    container_port   = 8080
   }
 
   depends_on = [aws_lb_listener.listener]
@@ -147,6 +147,14 @@ resource "aws_alb" "application_load_balancer" {
 
 resource "aws_security_group" "load_balancer_security_group" {
   vpc_id = aws_vpc.aws-vpc.id
+
+  ingress {
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
 
   ingress {
     from_port        = 80
@@ -198,7 +206,26 @@ resource "aws_lb_listener" "listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+resource "aws_lb_listener" "listener-https" {
+  load_balancer_arn = aws_alb.application_load_balancer.id
+  port              = "443"
+  protocol          = "HTTPS"
+
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = "<certificate-arn>"
+
+  default_action {
     target_group_arn = aws_lb_target_group.target_group.id
+    type             = "forward"
   }
 }
