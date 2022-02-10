@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const port = 8080
 
+app.get('/v1/status', (_, res) => {
+	res.jsonp({"status": "ok"})
+})
+
 app.get('/customers', (_, res) => {
   res.jsonp([
 	{
