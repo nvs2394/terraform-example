@@ -192,6 +192,7 @@ resource "aws_lb_target_group" "target_group" {
     timeout             = "3"
     path                = "/v1/status"
     unhealthy_threshold = "2"
+    port = "8080"
   }
 
   tags = {
