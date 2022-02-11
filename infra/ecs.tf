@@ -178,7 +178,7 @@ resource "aws_security_group" "load_balancer_security_group" {
 }
 
 resource "aws_lb_target_group" "target_group" {
-  name        = "${var.app_name}-${var.app_environment}-tg"
+  name        = "${var.app_name}-${var.app_environment}-${substr(uuid(), 0, 3)}-tg"
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"
@@ -197,6 +197,7 @@ resource "aws_lb_target_group" "target_group" {
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes        = [name]
   }
 
   tags = {
