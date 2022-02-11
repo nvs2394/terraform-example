@@ -195,6 +195,10 @@ resource "aws_lb_target_group" "target_group" {
     port = "8080"
   }
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = {
     Name        = "${var.app_name}-lb-tg"
     Environment = var.app_environment
