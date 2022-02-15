@@ -62,6 +62,22 @@ jobs:
           root: .
           paths:
             - .
+
+  destroy:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: |
+            cd infra
+            terraform destroy -auto-approve
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   
   test:
     docker:
@@ -87,6 +103,9 @@ workflows:
       - apply:
           requires:
             - hold-apply
+      - destroy: 
+          requires:
+            - plan-apply
 
   deploy_service:
     jobs:
