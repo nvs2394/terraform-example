@@ -103,9 +103,13 @@ workflows:
       - apply:
           requires:
             - hold-apply
-      - destroy: 
+      - hold-destroy:
+          type: approval
           requires:
             - plan-apply
+      - destroy: 
+          requires:
+            - hold-destroy
 
   deploy_service:
     jobs:
