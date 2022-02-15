@@ -1,4 +1,4 @@
-version: 2.1
+version: '2.1'
 
 anchors:
   filters: &filters
@@ -10,7 +10,7 @@ orbs:
   node: circleci/node@4.1
   aws-ecr: circleci/aws-ecr@6.15.2
   aws-ecs: circleci/aws-ecs@2.2.1
-  aws-cli: circleci/aws-cli@1.3
+  aws-cli: circleci/aws-cli@2.0.6
 
 
 jobs:
@@ -93,11 +93,7 @@ jobs:
     docker:
       - image: 'cimg/python:3.9.1'
     steps:
-      - aws-cli/install
-      - aws-cli/configure:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          aws-region: AWS_DEFAULT_REGION
+      - aws-cli/setup
       - aws-ecs/run-task:
           cluster: node-js-app-production-cluster
           security-group-ids: $SECURITY_GROUP_IDS
