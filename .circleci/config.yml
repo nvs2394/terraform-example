@@ -133,6 +133,8 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          aws-region: ${AWS_DEFAULT_REGION}
           family: "node-js-app-production-ecs-service"
           cluster-name: "node-js-app-production-cluster"
-          container-image-name-updates: "container=node-js-app-production-container,tag=${CIRCLE_SHA1}"
+          container-image-name-updates: "container=node-js-app-production-container,image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/node-js-app-production-ecr:latest,${CIRCLE_SHA1}"
+          verify-revision-is-deployed: true
