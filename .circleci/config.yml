@@ -93,6 +93,11 @@ jobs:
     docker:
       - image: 'cimg/python:3.9.1'
     steps:
+      - aws-cli/install
+      - aws-cli/configure:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_DEFAULT_REGION
       - aws-ecs/run-task:
           cluster: node-js-app-production-cluster
           security-group-ids: $SECURITY_GROUP_IDS
