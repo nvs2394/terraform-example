@@ -97,7 +97,6 @@ jobs:
           security-group-ids: $SECURITY_GROUP_IDS
           subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
           task-definition: node-js-app-task
-workflows:
 
 workflows:
   version: 2
