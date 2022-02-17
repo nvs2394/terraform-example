@@ -154,5 +154,5 @@ workflows:
           service-name: "node-js-app-production-ecs-service"
           cluster-name: "node-js-app-production-cluster"
           container-image-name-updates: "container=node-js-app-production-container,image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/node-js-app-production-ecr:${CIRCLE_SHA1}"
-          verify-revision-is-deployed: true
-          force-new-deployment: true
+          # verify-revision-is-deployed: true
+          # force-new-deployment: true
