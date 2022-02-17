@@ -6,6 +6,10 @@ app.get('/v1/status', (_, res) => {
 	res.jsonp({"status": "ok"})
 })
 
+app.get('/health', (_, res) => {
+	res.jsonp({"status": "ok"})
+})
+
 app.get('/customers', (_, res) => {
   res.jsonp([
 	{
