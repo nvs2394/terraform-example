@@ -103,6 +103,13 @@ resource "aws_ecs_service" "aws-ecs-service" {
   }
 
   depends_on = [aws_lb_listener.listener]
+
+  # we ignore task_definition changes as the revision changes on deploy
+  # of a new version of the application
+  # desired_count is ignored as it can change due to autoscaling policy
+  lifecycle {
+    ignore_changes = [task_definition, desired_count]
+  }
 }
 
 resource "aws_security_group" "service_security_group" {
@@ -113,6 +120,8 @@ resource "aws_security_group" "service_security_group" {
     to_port         = 0
     protocol        = "-1"
     security_groups = [aws_security_group.load_balancer_security_group.id]
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
